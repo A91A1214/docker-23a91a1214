@@ -61,3 +61,13 @@ VOLUME ["/data", "/cron"]
 # Start cron (background) and then start uvicorn (foreground)
 # The run script writes last_code to /cron/last_code.txt
 CMD ["bash", "-lc", "service cron start || cron || true; ./scripts/run_uvicorn.sh"]
+CMD ["uvicorn", "app.server:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["./scripts/run_cron.sh"]
+
+# Copy requirements.txt from builder or project
+COPY --from=builder /app/requirements.txt . 
+
+# Install Python packages needed at runtime
+RUN python -m pip install --no-cache-dir -r requirements.txt
+
+

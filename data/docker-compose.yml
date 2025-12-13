@@ -1,0 +1,18 @@
+services:
+  pki-2fa-app:
+    build: .
+    container_name: pki-2fa-app
+    command: ["bash", "./scripts/run_uvicorn.sh"]
+    ports:
+      - "8080:8080"
+    volumes:
+      - "C:/Users/satya/Desktop/docker-23a91a1214/data:/data"
+    restart: unless-stopped
+
+  pki-2fa-cron:
+    build: .
+    container_name: pki-2fa-cron
+    command: ["bash", "./scripts/run_cron.sh"]
+    volumes:
+      - "C:/Users/satya/Desktop/docker-23a91a1214/data:/data"
+    restart: unless-stopped
